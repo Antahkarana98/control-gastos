@@ -5,15 +5,23 @@ import Modal from './components/Modal'
 import { generateId } from './helpers'
 import NewExpenseIcon from './img/nuevo-gasto.svg'
 import ExpensesList from './components/ExpensesList'
+import Filter from './components/Filter'
 
 function App() {
 
-  const [budget, setBudget] = useState(0)
+  const [budget, setBudget] = useState(
+    Number(localStorage.getItem('budget')) ?? 0
+    )
+  const [expenses, setExpenses] = useState(
+    localStorage.getItem('expenses') ? JSON.parse(localStorage.getItem('expenses')) : []
+  )
+
   const [isValidBudget, setIsValidBudget] = useState(false)
   const [modal, setModal] = useState(false)
   const [modalAnimation, setModalAnimation] = useState(false)
-  const [expenses, setExpenses] = useState([])
   const [expenseEdit, setExpenseEdit] = useState({})
+  const [filter, setFilter] = useState('')
+  const [expensesFilter, setExpensesFilter] = useState([])
 
   useEffect(() => {
     if(Object.keys(expenseEdit).length > 0) {
@@ -24,6 +32,29 @@ function App() {
     }, 500);
     }
   }, [expenseEdit]);
+
+  useEffect(() => {
+    localStorage.setItem('budget', budget ?? 0)
+  }, [budget]);
+
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses) ?? [])
+  }, [expenses]);
+
+  useEffect(() => {
+    const budgetLs = localStorage.getItem('budget') ?? 0
+
+    if(budgetLs > 0) {
+      setIsValidBudget(true)
+    }
+  }, []);
+
+  useEffect(() => {
+    if(filter){
+      const expensesFilter = expenses.filter(expense => expense.category === filter)
+      setExpensesFilter(expensesFilter)
+    }
+  }, [filter])
 
   const handleNewExpense = () => {
     setModal(true)
@@ -65,6 +96,7 @@ function App() {
     <div className={modal ? 'fijar' : ''}>
       <Header
         expenses = {expenses}
+        setExpenses = {setExpenses}
         budget = {budget}
         setBudget = {setBudget}
         isValidBudget = {isValidBudget}
@@ -75,10 +107,16 @@ function App() {
 
         <>
           <main>
+            <Filter
+              filter = {filter}
+              setFilter = {setFilter}
+            />
             <ExpensesList
               expenses = {expenses}
               setExpenseEdit = {setExpenseEdit}
               expenseDelete = {expenseDelete}
+              filter={filter}
+              expensesFilter={expensesFilter}
             />
           </main>
 
