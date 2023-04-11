@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import Message from './Message'
 import CloseIcon from '../img/cerrar.svg'
 
-const Modal = ({setModal, modalAnimation, setModalAnimation, saveExpense, expenseEdit}) => {
+const Modal = ({setModal, modalAnimation, setModalAnimation, saveExpense, expenseEdit, setExpenseEdit}) => {
 
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
@@ -26,13 +26,14 @@ const Modal = ({setModal, modalAnimation, setModalAnimation, saveExpense, expens
   const AnimationModal = () => {
 
     setModalAnimation(false)
+    setExpenseEdit({})
     setTimeout(() => {
 
       setModal(false)
     }, 500);
   }
 
-  const validateForm = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     if([name, amount, category].includes('')) {
@@ -58,7 +59,7 @@ const Modal = ({setModal, modalAnimation, setModalAnimation, saveExpense, expens
           onClick={AnimationModal}
         />
       </div>
-      <form className={`formulario ${modalAnimation ? 'animar' : 'cerrar'}`} onSubmit={validateForm}>
+      <form className={`formulario ${modalAnimation ? 'animar' : 'cerrar'}`} onSubmit={handleSubmit}>
         <legend>{expenseEdit.name ? 'Edit Expense' : 'New Expense'}</legend>
 
         {mensaje && <Message type="error">{mensaje}</Message>}
@@ -98,7 +99,7 @@ const Modal = ({setModal, modalAnimation, setModalAnimation, saveExpense, expens
             <option value="house">House</option>
             <option value="food">Food</option>
             <option value="expenses">Expenses</option>
-            <option value="entertainment">Entertainment</option>
+            <option value="entertaiment">Entertainment</option>
             <option value="health">Health</option>
             <option value="suscriptions">Suscriptions</option>
           </select>

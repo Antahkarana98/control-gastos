@@ -41,6 +41,7 @@ function App() {
         expenseState.id === expense.id ? expense : expenseState))
 
       setExpenses(EditedExpenses)
+      setExpenseEdit({})
     }else{
 
       expense.id = generateId()
@@ -53,6 +54,11 @@ function App() {
 
       setModal(false)
     }, 500);
+  }
+
+  const expenseDelete = id => {
+    const deleteExpenses = expenses.filter(expense => expense.id !== id)
+    setExpenses(deleteExpenses)
   }
 
   return (
@@ -72,6 +78,7 @@ function App() {
             <ExpensesList
               expenses = {expenses}
               setExpenseEdit = {setExpenseEdit}
+              expenseDelete = {expenseDelete}
             />
           </main>
 
@@ -92,6 +99,7 @@ function App() {
           setModalAnimation = {setModalAnimation}
           saveExpense = {saveExpense}
           expenseEdit = {expenseEdit}
+          setExpenseEdit = {setExpenseEdit}
         />
       )}
     </div>

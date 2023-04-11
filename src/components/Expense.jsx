@@ -13,7 +13,7 @@ import savingIcon from '../img/icono_ahorro.svg'
 import HouseIcon from '../img/icono_casa.svg'
 import FoodIcon from '../img/icono_comida.svg'
 import expensesIcon from '../img/icono_gastos.svg'
-import enterteimentIcon from '../img/icono_ocio.svg'
+import entertaimentIcon from '../img/icono_ocio.svg'
 import healthIcon from '../img/icono_salud.svg'
 import suscriptionIcon from '../img/icono_suscripciones.svg'
 
@@ -22,12 +22,12 @@ const IconDictionary = {
   'house': HouseIcon,
   'food': FoodIcon,
   'expenses': expensesIcon,
-  'enterteiment': enterteimentIcon,
+  'entertaiment': entertaimentIcon,
   'health': healthIcon,
   'suscriptions': suscriptionIcon
 }
 
-const Expense = ({expense, setExpenseEdit}) => {
+const Expense = ({expense, setExpenseEdit, expenseDelete}) => {
   const { name, amount, date, category, id } = expense
 
   const leadingActions = () => (
@@ -38,7 +38,10 @@ const Expense = ({expense, setExpenseEdit}) => {
 
   const trailingActions = () => (
     <TrailingActions>
-      <SwipeAction onClick={ () => console.log('clicked') }>Eliminar</SwipeAction>
+      <SwipeAction
+      onClick={ () => expenseDelete(id) }
+      destructive = {true}
+      >Eliminar</SwipeAction>
     </TrailingActions>
   )
 
