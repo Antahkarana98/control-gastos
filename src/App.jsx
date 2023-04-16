@@ -10,8 +10,9 @@ import Filter from './components/Filter'
 function App() {
 
   const [budget, setBudget] = useState(
-    Number(localStorage.getItem('budget')) ?? 0
-    )
+    Number(localStorage.getItem('budget')) || 0
+  )
+
   const [expenses, setExpenses] = useState(
     localStorage.getItem('expenses') ? JSON.parse(localStorage.getItem('expenses')) : []
   )
